@@ -13,6 +13,8 @@
 
 @property (strong, nonatomic) CAShapeLayer *shaperLayer;
 @property (strong, nonatomic) CAGradientLayer *gradientLayer;
+
+@property (strong, nonatomic) UIImageView *iconView;
 @property (strong, nonatomic) CALayer *iconLayer;
 @property (strong, nonatomic) NSArray *images;
 
@@ -23,9 +25,11 @@
 
 
 - (void)awakeFromNib {
+//    self.backgroundColor = [UIColor redColor];
     
     [self.layer addSublayer:self.gradientLayer];
-    [self.layer addSublayer:self.iconLayer];
+//    [self.layer addSublayer:self.iconLayer];
+    [self addSubview:self.iconView];
     
     [self startAnimation];
 }
@@ -40,6 +44,25 @@
     spinAnimation.repeatForever = YES;
     spinAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     [self.gradientLayer pop_addAnimation:spinAnimation forKey:@"spinAnimation"];
+    
+    CGFloat width = CGRectGetWidth(self.frame);
+    CGFloat height = CGRectGetHeight(self.frame);
+    UIBezierPath *bezierPath = [UIBezierPath bezierPath];
+    [bezierPath moveToPoint:CGPointMake(width / 2, height - 20)];
+    [bezierPath addLineToPoint:CGPointMake(width / 2, 20)];
+    
+    CAKeyframeAnimation *keyAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    keyAnimation.path = bezierPath.CGPath;
+    keyAnimation.duration = 2.0;
+    keyAnimation.repeatCount = CGFLOAT_MAX;
+//    keyAnimation.autoreverses = YES;
+    keyAnimation.removedOnCompletion = YES;
+    [self.iconView.layer addAnimation:keyAnimation forKey:@"key"];
+    
+//    CAAnimationGroup *group = ca
+//    keyAnimation.values = @[
+//    
+//                            ];
 }
 
 - (void)startIconAnimation {
@@ -59,11 +82,19 @@
 - (CALayer *)iconLayer {
     if (!_iconLayer) {
         _iconLayer = [CALayer layer];
-        _iconLayer.bounds = CGRectMake(0, 0, 50, 50);
-        _iconLayer.position = CGPointMake(CGRectGetMidX(self.layer.bounds), CGRectGetHeight(self.layer.bounds));
-        _iconLayer.contents = [UIImage imageNamed:@"emitter_fruit_5"];
+        _iconLayer.frame = CGRectMake(0, 0, 20, 20);
+        _iconLayer.position = CGPointMake(CGRectGetWidth(self.layer.bounds) / 2, CGRectGetHeight(self.layer.bounds) / 2);
+        _iconLayer.contents = (id)[UIImage imageNamed:@"emitter_fruit_2"].CGImage;
     }
     return _iconLayer;
+}
+
+- (UIImageView *)iconView {
+    if (!_iconView) {
+        _iconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emitter_fruit_2"]];
+//        _iconView. = CGPointMake(CGRectGetWidth(self.layer.bounds) / 2, CGRectGetHeight(self.layer.bounds) / 2);
+    }
+    return _iconView;
 }
 
 - (CAShapeLayer *)shaperLayer {
@@ -91,7 +122,7 @@
     if (!_gradientLayer) {
         _gradientLayer = [CAGradientLayer layer];
         _gradientLayer.startPoint = CGPointMake(0, 0);
-        _gradientLayer.endPoint = CGPointMake(0, 0.9);
+        _gradientLayer.endPoint = CGPointMake(0, 0.98);
         _gradientLayer.colors = @[
                                   (id)[UIColor blueColor].CGColor,
                                   (id)[UIColor clearColor].CGColor,
