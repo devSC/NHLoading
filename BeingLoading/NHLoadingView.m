@@ -52,17 +52,52 @@
     [bezierPath addLineToPoint:CGPointMake(width / 2, 20)];
     
     CAKeyframeAnimation *keyAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
-    keyAnimation.path = bezierPath.CGPath;
+    keyAnimation.values = @[
+                            [NSValue valueWithCGPoint:CGPointMake(width / 2, height - 28)],
+                            [NSValue valueWithCGPoint:CGPointMake(width / 2, height / 2 - 2)],
+                            [NSValue valueWithCGPoint:CGPointMake(width / 2, height / 2)],
+                            [NSValue valueWithCGPoint:CGPointMake(width / 2, height / 2)],
+                            [NSValue valueWithCGPoint:CGPointMake(width / 2, 28)],
+                            ];
+    keyAnimation.keyTimes = @[
+                              @0,
+                              @0.4,
+                              @0.43,
+                              @0.6,
+                              @1
+                              ];
     keyAnimation.duration = 2.0;
     keyAnimation.repeatCount = CGFLOAT_MAX;
-//    keyAnimation.autoreverses = YES;
     keyAnimation.removedOnCompletion = YES;
-    [self.iconView.layer addAnimation:keyAnimation forKey:@"key"];
     
-//    CAAnimationGroup *group = ca
-//    keyAnimation.values = @[
-//    
-//                            ];
+    CAKeyframeAnimation *alphaAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
+    alphaAnimation.values = @[
+                            @0,
+                            @1,
+                            @1,
+                            @0,
+                            ];
+    alphaAnimation.keyTimes = @[
+                              @0,
+                              @0.4,
+                              @0.6,
+                              @1
+                              ];
+    alphaAnimation.duration = 2.0;
+    alphaAnimation.repeatCount = CGFLOAT_MAX;
+    alphaAnimation.removedOnCompletion = YES;
+    
+    CAAnimationGroup *group = [CAAnimationGroup animation];
+    group.duration = 2.0;
+    group.repeatCount = CGFLOAT_MAX;
+    group.removedOnCompletion = YES;
+    group.animations = @[
+                         keyAnimation,
+                         alphaAnimation,
+                         ];
+    
+    [self.iconView.layer addAnimation:group forKey:@"key"];
+    
 }
 
 - (void)startIconAnimation {
@@ -91,7 +126,7 @@
 
 - (UIImageView *)iconView {
     if (!_iconView) {
-        _iconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emitter_fruit_2"]];
+        _iconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emitter_fruit_5"]];
 //        _iconView. = CGPointMake(CGRectGetWidth(self.layer.bounds) / 2, CGRectGetHeight(self.layer.bounds) / 2);
     }
     return _iconView;
