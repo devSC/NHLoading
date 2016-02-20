@@ -16,7 +16,6 @@
 @property (strong, nonatomic) CAGradientLayer *gradientLayer;
 
 @property (strong, nonatomic) UIImageView *iconView;
-@property (strong, nonatomic) CALayer *iconLayer;
 @property (strong, nonatomic) NSArray *images;
 @end
 
@@ -27,8 +26,9 @@
 
 
 - (void)awakeFromNib {
-//    self.backgroundColor = [UIColor redColor];
+    
     _iconIndex = 0;
+    
     [self.layer addSublayer:self.gradientLayer];
     [self addSubview:self.iconView];
     
@@ -109,17 +109,6 @@
         }
     };
     [self.iconView.layer addAnimation:group forKey:@"key"];
-}
-
-
-- (CALayer *)iconLayer {
-    if (!_iconLayer) {
-        _iconLayer = [CALayer layer];
-        _iconLayer.frame = CGRectMake(0, 0, 20, 20);
-        _iconLayer.position = CGPointMake(CGRectGetWidth(self.layer.bounds) / 2, CGRectGetHeight(self.layer.bounds) / 2);
-        _iconLayer.contents = (id)[UIImage imageNamed:@"emitter_fruit_2"].CGImage;
-    }
-    return _iconLayer;
 }
 
 - (UIImageView *)iconView {
