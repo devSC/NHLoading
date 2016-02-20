@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8524A4B38E9556E873FC21DB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 266C1AF3B0714B888E4BACE5 /* libPods.a */; };
+		C8B1AD401C789A3200015031 /* CAAnimation+NHDelegateBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B1AD3F1C789A3200015031 /* CAAnimation+NHDelegateBlocks.m */; };
+		C8B1AD421C789EB000015031 /* ic_release_loading1@3x.gif in Resources */ = {isa = PBXBuildFile; fileRef = C8B1AD411C789EB000015031 /* ic_release_loading1@3x.gif */; };
 		FE3225EC1C5E180F00B65285 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3225EB1C5E180F00B65285 /* main.m */; };
 		FE3225EF1C5E180F00B65285 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3225EE1C5E180F00B65285 /* AppDelegate.m */; };
 		FE3225F21C5E180F00B65285 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3225F11C5E180F00B65285 /* ViewController.m */; };
@@ -20,6 +22,9 @@
 /* Begin PBXFileReference section */
 		266C1AF3B0714B888E4BACE5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		428739DE83F6BC1DF10B426C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		C8B1AD3E1C789A3200015031 /* CAAnimation+NHDelegateBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAAnimation+NHDelegateBlocks.h"; sourceTree = "<group>"; };
+		C8B1AD3F1C789A3200015031 /* CAAnimation+NHDelegateBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAAnimation+NHDelegateBlocks.m"; sourceTree = "<group>"; };
+		C8B1AD411C789EB000015031 /* ic_release_loading1@3x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ic_release_loading1@3x.gif"; sourceTree = "<group>"; };
 		CD782A2A951603E2AAA12815 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		FE3225E71C5E180F00B65285 /* BeingLoading.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeingLoading.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE3225EB1C5E180F00B65285 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -64,6 +69,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C8B1AD3D1C789A3200015031 /* CAAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				C8B1AD3E1C789A3200015031 /* CAAnimation+NHDelegateBlocks.h */,
+				C8B1AD3F1C789A3200015031 /* CAAnimation+NHDelegateBlocks.m */,
+			);
+			path = CAAnimation;
+			sourceTree = "<group>";
+		};
 		FE3225DE1C5E180F00B65285 = {
 			isa = PBXGroup;
 			children = (
@@ -91,10 +105,12 @@
 				FE3225F11C5E180F00B65285 /* ViewController.m */,
 				FE3226011C5E1AC800B65285 /* NHLoadingView.h */,
 				FE3226021C5E1AC800B65285 /* NHLoadingView.m */,
+				C8B1AD3D1C789A3200015031 /* CAAnimation */,
 				FE3225F31C5E180F00B65285 /* Main.storyboard */,
 				FE3225F61C5E180F00B65285 /* Assets.xcassets */,
 				FE3225F81C5E181000B65285 /* LaunchScreen.storyboard */,
 				FE3225FB1C5E181000B65285 /* Info.plist */,
+				C8B1AD411C789EB000015031 /* ic_release_loading1@3x.gif */,
 				FE3225EA1C5E180F00B65285 /* Supporting Files */,
 			);
 			path = BeingLoading;
@@ -171,6 +187,7 @@
 				FE3225FA1C5E181000B65285 /* LaunchScreen.storyboard in Resources */,
 				FE3225F71C5E180F00B65285 /* Assets.xcassets in Resources */,
 				FE3225F51C5E180F00B65285 /* Main.storyboard in Resources */,
+				C8B1AD421C789EB000015031 /* ic_release_loading1@3x.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +250,7 @@
 				FE3226031C5E1AC800B65285 /* NHLoadingView.m in Sources */,
 				FE3225EF1C5E180F00B65285 /* AppDelegate.m in Sources */,
 				FE3225EC1C5E180F00B65285 /* main.m in Sources */,
+				C8B1AD401C789A3200015031 /* CAAnimation+NHDelegateBlocks.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

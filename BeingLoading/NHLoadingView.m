@@ -8,6 +8,7 @@
 
 #import "NHLoadingView.h"
 #import <POP.h>
+#import "CAAnimation+NHDelegateBlocks.h"
 
 @interface NHLoadingView ()
 
@@ -17,47 +18,55 @@
 @property (strong, nonatomic) UIImageView *iconView;
 @property (strong, nonatomic) CALayer *iconLayer;
 @property (strong, nonatomic) NSArray *images;
-
 @end
 
 
-@implementation NHLoadingView
+@implementation NHLoadingView {
+    NSInteger _iconIndex;
+}
 
 
 - (void)awakeFromNib {
 //    self.backgroundColor = [UIColor redColor];
-    
+    _iconIndex = 0;
     [self.layer addSublayer:self.gradientLayer];
-//    [self.layer addSublayer:self.iconLayer];
     [self addSubview:self.iconView];
     
     [self startAnimation];
+    [self startIconViewAnimationWithImage:[self iconImage]];
 }
-
+- (UIImage *)iconImage {
+    UIImage *image = [UIImage imageNamed:self.images[_iconIndex]];
+    _iconIndex += 1;
+    if (_iconIndex >= self.images.count) {
+        _iconIndex = 0;
+    }
+    return image;
+}
 
 
 - (void)startAnimation {
     POPBasicAnimation *spinAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerRotation];
     spinAnimation.fromValue = @0;
     spinAnimation.toValue = @(2 * M_PI);
-    spinAnimation.duration = 2.0;
+    spinAnimation.duration = 1.5;
     spinAnimation.repeatForever = YES;
     spinAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     [self.gradientLayer pop_addAnimation:spinAnimation forKey:@"spinAnimation"];
-    
+}
+
+- (void)startIconViewAnimationWithImage:(UIImage *)image {
     CGFloat width = CGRectGetWidth(self.frame);
     CGFloat height = CGRectGetHeight(self.frame);
-    UIBezierPath *bezierPath = [UIBezierPath bezierPath];
-    [bezierPath moveToPoint:CGPointMake(width / 2, height - 20)];
-    [bezierPath addLineToPoint:CGPointMake(width / 2, 20)];
     
+    self.iconView.image = image;
     CAKeyframeAnimation *keyAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
     keyAnimation.values = @[
-                            [NSValue valueWithCGPoint:CGPointMake(width / 2, height - 28)],
+                            [NSValue valueWithCGPoint:CGPointMake(width / 2, height - 30)],
                             [NSValue valueWithCGPoint:CGPointMake(width / 2, height / 2 - 2)],
                             [NSValue valueWithCGPoint:CGPointMake(width / 2, height / 2)],
                             [NSValue valueWithCGPoint:CGPointMake(width / 2, height / 2)],
-                            [NSValue valueWithCGPoint:CGPointMake(width / 2, 28)],
+                            [NSValue valueWithCGPoint:CGPointMake(width / 2, 35)],
                             ];
     keyAnimation.keyTimes = @[
                               @0,
@@ -66,51 +75,40 @@
                               @0.6,
                               @1
                               ];
-    keyAnimation.duration = 2.0;
+    keyAnimation.duration = 1.5;
     keyAnimation.repeatCount = CGFLOAT_MAX;
     keyAnimation.removedOnCompletion = YES;
     
     CAKeyframeAnimation *alphaAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
     alphaAnimation.values = @[
-                            @0,
-                            @1,
-                            @1,
-                            @0,
-                            ];
-    alphaAnimation.keyTimes = @[
                               @0,
-                              @0.4,
-                              @0.6,
-                              @1
+                              @1,
+                              @1,
+                              @0,
                               ];
-    alphaAnimation.duration = 2.0;
+    alphaAnimation.keyTimes = @[
+                                @0,
+                                @0.4,
+                                @0.6,
+                                @1
+                                ];
+    alphaAnimation.duration = 1.5;
     alphaAnimation.repeatCount = CGFLOAT_MAX;
     alphaAnimation.removedOnCompletion = YES;
     
     CAAnimationGroup *group = [CAAnimationGroup animation];
-    group.duration = 2.0;
-    group.repeatCount = CGFLOAT_MAX;
+    group.duration = 1.5;
     group.removedOnCompletion = YES;
     group.animations = @[
                          keyAnimation,
                          alphaAnimation,
                          ];
-    
+    group.completionBlock = ^(BOOL finish) {
+        if (finish) {
+            [self startIconViewAnimationWithImage:[self iconImage]];
+        }
+    };
     [self.iconView.layer addAnimation:group forKey:@"key"];
-    
-}
-
-- (void)startIconAnimation {
-    
-    CGFloat midX = CGRectGetMidX(self.layer.bounds);
-    CGFloat height = CGRectGetHeight(self.layer.bounds);
-    CAKeyframeAnimation *keyFrame = [CAKeyframeAnimation animationWithKeyPath:@"position"];
-//    keyFrame.values = @[
-//                        [NSValue valueWithCGPoint:CGPointMake(midX, height)],
-//                        [NSValue valueWithCGPoint:cgp]
-//                        ]
-    
-   
 }
 
 
@@ -126,8 +124,11 @@
 
 - (UIImageView *)iconView {
     if (!_iconView) {
-        _iconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emitter_fruit_5"]];
-//        _iconView. = CGPointMake(CGRectGetWidth(self.layer.bounds) / 2, CGRectGetHeight(self.layer.bounds) / 2);
+        _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 42, 42)];
+        _iconView.alpha = 0;
+        CGFloat width = CGRectGetWidth(self.frame);
+        CGFloat height = CGRectGetHeight(self.frame);
+        _iconView.layer.position = CGPointMake(width / 2, height - 20);
     }
     return _iconView;
 }
@@ -171,22 +172,13 @@
 - (NSArray *)images {
     if (!_images) {
         _images = @[
-                    @"emitter_balloon_1",
-                    @"emitter_balloon_2",
-                    @"emitter_balloon_3",
-                    @"emitter_balloon_4",
-                    @"emitter_balloon_5",
-                    @"emitter_balloon_6",
-                    @"emitter_candy_1",
-                    @"emitter_candy_2",
-                    @"emitter_candy_3",
-                    @"emitter_fruit_1",
-                    @"emitter_fruit_2",
-                    @"emitter_fruit_3",
-                    @"emitter_fruit_4",
-                    @"emitter_fruit_5",
-                    @"emitter_other_1",
-                    @"emitter_other_2",
+                    @"ic_face_1",
+                    @"ic_face_2",
+                    @"ic_face_3",
+                    @"ic_face_4",
+                    @"ic_face_5",
+                    @"ic_face_6",
+                    @"ic_face_7",
                     ];
     }
     return _images;
